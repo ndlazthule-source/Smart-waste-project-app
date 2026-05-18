@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "Smart Waste App",
+    "slug": "smart-waste-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#000000"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.admiralsolwazis.smartwasteapp",
+      "permissions": ["ACCESS_FINE_LOCATION"],
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBaNqxPwvfrLC-Su1m8VR16rfWAUHpt8EE"
+        }
+      },
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#000000"
+      }
+    },
+    "web": {
+      "favicon": "./assets/icon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "59282b67-d323-4b4f-895b-e9a111bfda14"
+      }
+    },
+    "owner": "admiralsolwazis-organization"
+  }
+}
