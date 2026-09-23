@@ -1,54 +1,37 @@
-# DUT SafeAlert 🛡️
+# Smart Waste Management App 🗑️♻️
 
-**A campus safety and incident-management web app for the Durban University of Technology (DUT).**
-Students and lecturers report incidents. Security officers investigate them. The Head of Security assigns work, sends out critical alerts and tracks trends on a reporting dashboard. It covers all three Durban campuses.
+**A mobile app for reporting waste issues and encouraging community-driven environmental action.**
+Citizens capture and upload photos of waste (illegal dumping, overflowing bins), get an AI-assisted suggestion of the waste type, and submit a report with their GPS location. Reports appear on a map so problem areas can be identified, and users track their own environmental impact through an eco-points dashboard.
 
-![Python](https://img.shields.io/badge/Python-3-3776AB?logo=python&logoColor=white)
-![Flask](https://img.shields.io/badge/Flask-3.1-000000?logo=flask&logoColor=white)
-![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.0-D71F00?logo=sqlalchemy&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Render-4169E1?logo=postgresql&logoColor=white)
-![Chart.js](https://img.shields.io/badge/Chart.js-reports-FF6384?logo=chartdotjs&logoColor=white)
-![Deployed on Render](https://img.shields.io/badge/Deployed%20on-Render-46E3B7?logo=render&logoColor=white)
+![React Native](https://img.shields.io/badge/React%20Native-Expo-000020?logo=expo&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-Firestore-FFCA28?logo=firebase&logoColor=black)
+![Node.js](https://img.shields.io/badge/Node.js-AI%20server%20concept-339933?logo=node.js&logoColor=white)
 
-> Built as a **team project for PBDV301 (Project-Based Development) at DUT (Group 3)**, March–May 2026.
-> This repository is a fork of the [original team repo](https://github.com/Nomcebo-Mncwabe/Group3-PBDV301). The full commit history is kept, so every contribution stays with its author.
-
----
-
-## The campuses it serves
-
-| Ritson Campus | Steve Biko Campus | ML Sultan Campus |
-|:---:|:---:|:---:|
-| <img src="static/images/ritson.jpg" alt="DUT Ritson Campus" width="260"> | <img src="static/images/steve_biko.jpg" alt="DUT Steve Biko Campus" width="260"> | <img src="static/images/ml_sultan.jpg" alt="DUT ML Sultan Campus" width="260"> |
-
-The app uses these photos on its landing page. It also shows one of them at random as the background on every page, for a consistent campus feel.
+> Academic project demonstrating a mobile app for community waste reporting with an AI-assisted classification prototype, developed using Scrum over a 4-week sprint plan.
 
 ---
 
 ## The problem
 
-Campus security incidents (theft, harassment, suspicious activity, facility hazards) often go unreported or get stuck in informal channels. Students don't know whether anything happened after they reported something. Security management can't see which campus or incident type needs attention.
+Waste management in many communities is inefficient because of poor reporting systems and low awareness. Citizens often struggle to report illegal dumping or overflowing bins, which leads to environmental pollution and health risks. There is no easy way for residents to flag issues or for anyone to see where problem areas are clustered.
 
-**SafeAlert gives each group in that process its own workflow on one platform:**
+**The Smart Waste Management App gives residents a simple way to report waste issues, and gives the community visibility into where those issues are happening.**
 
-## Features by role
+## Features
 
-| Role | What they can do |
+| Feature | What it does |
 |---|---|
-| **Student** | Register, report an incident (**optionally anonymously**), track the status of their own reports with filters (status, severity, category, date range), and see live critical alerts on their dashboard |
-| **Lecturer** | Report incidents, track their own reports and receive campus-wide critical alerts |
-| **Security Officer** | Sign in and out of shifts **per campus** (attendance tracking), view assigned incidents, record investigation and resolution notes, set severity and move incidents from *Pending* → *In Progress* → *Resolved* |
-| **Head of Security** | Onboard and remove officers (with auto-generated `SEC####` personnel IDs), see which officers are on duty and where, assign incidents, set severity, **broadcast critical alerts** and view the **analytics dashboard** |
+| **Waste Reporting** | Upload or take a photo, add a description, select a waste type, and submit a report |
+| **AI Waste Detection (Prototype)** | Scans the uploaded image, suggests a waste type, shows a confidence level, and gives recycling tips |
+| **Location Tracking** | GPS-based location detection, address display, and coordinates stored with each report |
+| **Dashboard Analytics** | Eco-points system, total reports count, estimated environmental impact, waste type breakdown, and insights |
+| **Map Integration** | Displays reported waste locations to help identify problem areas |
+| **Recycling Guide** | Provides recycling information and educates users on waste handling |
+| **Collection Schedule** | Displays waste collection days to help users plan |
+| **Profile Management** | View user details, access activity history, and log out |
 
-### Highlights
-
-- **Role-based access control.** Separate login flows and dashboards for four user types. Security staff can't self-register; only the Head of Security can create their accounts.
-- **Automatic critical alerts.** Marking an incident as *Critical* creates an "avoid the area" alert for everyone on campus. Resolving the incident clears its alerts.
-- **Anonymous reporting** lowers the barrier for sensitive incidents.
-- **Live duty roster.** The Head of Security can see which officers are signed in and on which campus when assigning an incident.
-- **Reporting dashboard.** Chart.js charts of incidents by campus, category, severity and status.
-- **Mobile-responsive UI** across every page.
-- **Deployed to the cloud.** Render hosts the app with PostgreSQL. It falls back to SQLite for local development.
+> **Note on the AI feature:** the waste detection module is a **prototype** demonstrating the classification workflow (scan → suggested type → confidence score → recycling tip), built with simulated AI logic rather than a paid production API, due to API cost constraints during development.
 
 ---
 
@@ -56,84 +39,84 @@ Campus security incidents (theft, harassment, suspicious activity, facility haza
 
 ```mermaid
 flowchart LR
-    U[Students / Lecturers] -->|report, track| F
-    O[Security Officers] -->|attendance, investigate| F
-    H[Head of Security] -->|assign, alert, report| F
-    F[Flask app<br/>app.py<br/>Jinja2 templates] --> M[SQLAlchemy models]
-    M --> DB[(PostgreSQL on Render<br/>SQLite locally)]
-    F --> C[Chart.js reports]
+    U[User] -->|capture / upload photo, GPS location| A
+    A[React Native App<br/>Expo + TypeScript] --> AI[AI Module<br/>Prototype classification logic]
+    A --> F[(Firebase Firestore<br/>reports & user data)]
+    A --> M[Map view<br/>reported locations]
+    AI --> A
 ```
 
-Full design docs are in [`Docs/`](Docs/README.md): class diagrams, the database ERD, sequence diagrams and flow diagrams.
+**System flow**
 
-**Data model** (`models/__init__.py`)
-
-- `User`: accounts and roles (hashed passwords with Werkzeug)
-- `Incident`: report details, severity, status, assigned officer, investigation and resolution notes
-- `Alert`: priority, linked incident, delivery channel, sent flag, expiry
-- `SecurityPersonnel`: officer profile, duty status, assigned site and shift, emergency contact
-- `Attendance`: daily per-campus sign-in and sign-out records
+1. **Mobile App (Frontend)** — handles UI, camera/image picker, GPS location capture, and user interaction
+2. **Firebase (Backend)** — stores waste reports and user data in Firestore
+3. **AI Module (Prototype)** — processes the uploaded image and returns a classification, confidence level, and recycling tip
 
 ## Tech stack
 
 | Layer | Tools |
 |---|---|
-| Backend | Python, Flask 3, Flask-SQLAlchemy, Werkzeug security |
-| Database | PostgreSQL (production), SQLite (local) |
-| Frontend | Jinja2 templates, HTML/CSS, vanilla JS, Chart.js |
-| Deployment | Render (`render.yaml`) |
-| Collaboration | Git and GitHub: feature branches, pull requests, code review |
+| Frontend | React Native (Expo), TypeScript |
+| Backend (prototype concept) | Node.js (AI server concept) |
+| Database | Firebase Firestore |
+| Services | Location Services (GPS), Camera & Image Picker, AI Simulation (prototype logic) |
 
 ---
 
-## Running it locally
+## Methodology
 
-```bash
-git clone https://github.com/<your-username>/Group3-PBDV301.git
-cd Group3-PBDV301
+Built using **Scrum**, over a 4-week sprint plan:
 
-python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-
-python app.py                   # creates the tables and starts on http://127.0.0.1:5000
-```
-
-Set `DATABASE_URL` to use PostgreSQL. Without it, the app uses a local SQLite file.
-
----
-
-## My contribution
-
-As a member of Group 3, I extended the **data model** so the system could support real operational use (merged via [PR #3](https://github.com/Nomcebo-Mncwabe/Group3-PBDV301/pull/3)):
-
-- **Alert delivery tracking.** I added `sent_via` (App / SMS / Email / Push), `is_sent` and `expires_at` to `Alert`. This lays the groundwork for multi-channel notifications and for time-limited alerts that expire on their own.
-- **Security deployment data.** I added `assigned_site`, `assigned_shift` (Morning / Night / 12h) and emergency contact details to `SecurityPersonnel`. This lets the Head of Security plan shift coverage across campuses.
-
-<!-- Add any non-code work here, e.g. requirements gathering, user stories, process/UML diagrams, testing, documentation or the final presentation. -->
-
-## The team
-
-| Member | Main areas |
+| Sprint | Focus |
 |---|---|
-| Nomcebo Mncwabe | Original repo and core application, critical alert workflow |
-| Devonne (`Devonne-1`) | Frontend redesign, mobile responsiveness, Render + PostgreSQL deployment, bug fixes |
-| Thuledu Ndlanzi | Data model extensions for alerts and security personnel |
-| Sihle (`sihle2000`) | Login page updates |
+| Week 1 | UI design & navigation |
+| Week 2 | Firebase integration |
+| Week 3 | AI detection feature |
+| Week 4 | Testing & improvements |
+
+**Product backlog:** waste reporting system, AI image detection, map integration, dashboard analytics, user authentication, recycling guide, collection schedule.
+
+## Testing
+
+Tested manually on a physical mobile device in the Expo environment.
+
+| Feature | Result |
+|---|---|
+| Login / Register | Passed |
+| Image Upload | Passed |
+| Camera | Passed |
+| AI Scan | Passed |
+| Report Submission | Passed |
+| Map Display | Passed |
+| Dashboard | Passed |
 
 ---
+
+## Challenges & solutions
+
+| Challenge | Solution |
+|---|---|
+| AI API cost restrictions | Used a prototype AI simulation instead of a paid production API |
+| Expo notification limitations | Disabled notifications in Expo Go |
+| Network connection issues | Implemented validation checks |
+| Handling image processing | Optimized UI for performance |
+
+---
+
+## Value & impact
+
+The application improves waste reporting efficiency, encourages community participation, promotes environmental awareness, and demonstrates a practical, if early-stage, use of AI in a mobile app.
 
 ## Roadmap
 
-Planned next steps to make the app production-ready:
+Planned next steps to move beyond the prototype:
 
-- [ ] Load `SECRET_KEY` and the Head of Security credentials from environment variables instead of source code
-- [ ] Use a single authentication decorator (e.g. Flask-Login) on every protected route, and add CSRF protection with Flask-WTF
-- [ ] Send alerts through the channels in `Alert.sent_via` (email/SMS/push) and expire them with `expires_at`
-- [ ] Show officer site and shift assignments in the Manage Officers UI
-- [ ] Add database migrations (Flask-Migrate) and automated tests (pytest)
+- [ ] Real AI/ML integration to replace the simulated classification logic
+- [ ] Push notifications
+- [ ] Admin dashboard
+- [ ] Real-time waste tracking
+- [ ] Gamification (badges & rewards)
 
 ---
 
-<sub>Campus photographs belong to their respective owners and are used here for non-commercial academic purposes.</sub>
-
+<sub>Academic project developed as part of coursework, demonstrating community waste reporting with an AI-assisted classification prototype.</sub>
